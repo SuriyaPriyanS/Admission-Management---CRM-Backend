@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 export function requireDbConnection(req, res, next) {
+  if (req.method === "OPTIONS") {
+    return next();
+  }
+
   if (mongoose.connection.readyState === 1) {
     return next();
   }

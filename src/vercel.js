@@ -20,14 +20,16 @@ async function ensureDbConnection() {
 }
 
 export default async function handler(req, res) {
+  if (req.method === "OPTIONS") {
+    return app(req, res);
+  }
+
   try {
     await ensureDbConnection();
-    return app(req, res);
   } catch (error) {
-    return res.status(503).json({
-      success: false,
-      message: "Database unavailable. Please check MongoDB connection and try again.",
-      ...(process.env.NODE_ENV !== "production" ? { details: error.message } : {}),
-    });
+    // Fall through to Express so CORS headers are applied consistently.
+    // /api routes will return 503 via requireDbConnection middleware.
   }
+
+  return app(req, res);
 }
