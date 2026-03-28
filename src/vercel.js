@@ -26,7 +26,7 @@ export default async function handler(req, res) {
 
   try {
     await ensureDbConnection();
-  } catch (error) {
+  } catch {
     // Fall through to Express so CORS headers are applied consistently.
     // /api routes will return 503 via requireDbConnection middleware.
   }
