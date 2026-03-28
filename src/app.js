@@ -13,6 +13,10 @@ dotenv.config();
 
 const app = express();
 const isProduction = process.env.NODE_ENV === "production";
+
+// Trust proxy for Vercel/serverless environments
+app.set("trust proxy", 1);
+
 const corsOptions = {
   origin: true,
   credentials: true,
