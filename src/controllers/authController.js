@@ -14,14 +14,7 @@ function buildToken(user) {
 export const register = asyncHandler(async (req, res) => {
   const { name, email, password, role } = req.body;
 
-  if (role === "ADMIN") {
-    return res.status(400).json({
-      success: false,
-      message: "Creating ADMIN user is not allowed from this route",
-    });
-  }
-
-  const existing = await User.findOne({ email });
+  const existing = await User.findOne({ email }).maxTimeMS(5000);
   if (existing) {
     return res.status(409).json({
       success: false,
@@ -51,7 +44,8 @@ export const register = asyncHandler(async (req, res) => {
 
 export const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email });
+  
+  const user = await User.findOne({ email }).maxTimeMS(5000);
 
   if (!user) {
     return res.status(401).json({
