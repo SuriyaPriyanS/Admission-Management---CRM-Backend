@@ -39,6 +39,12 @@ Server URL: `http://localhost:5000`
 - `officer@edumerge.local` / `Officer@123`
 - `management@edumerge.local` / `Manager@123`
 
+## Deployment Notes (Render / Vercel)
+- Set `NODE_ENV=production`.
+- Use a strong `JWT_SECRET` (at least 16 chars, not placeholders).
+- Ensure Mongo Atlas network access allows your host (quick test: `0.0.0.0/0`).
+- Verify runtime health at `/health` before testing login.
+
 ## Core APIs
 - `POST /api/auth/login`
 - `POST /api/auth/register` (ADMIN only)

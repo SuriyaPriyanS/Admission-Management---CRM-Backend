@@ -1,10 +1,17 @@
 import mongoose from "mongoose";
 import app from "./app.js";
 import { connectDB } from "./config/db.js";
+import { validateEnv } from "./config/env.js";
 
 let dbConnectPromise = null;
+let envValidated = false;
 
 async function ensureDbConnection() {
+  if (!envValidated) {
+    validateEnv();
+    envValidated = true;
+  }
+
   if (mongoose.connection.readyState === 1) {
     return;
   }
