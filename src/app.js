@@ -19,17 +19,6 @@ app.use(express.json({ limit: "1mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
-// Database connection check middleware
-app.use((req, res, next) => {
-  if (mongoose.connection.readyState !== 1) {
-    return res.status(503).json({
-      success: false,
-      message: "Database connection is not ready. Please try again later.",
-    });
-  }
-  next();
-});
-
 const globalApiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: isProduction ? Number(process.env.API_RATE_LIMIT || 300) : Number(process.env.API_RATE_LIMIT_DEV || 5000),
