@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 
+mongoose.set("bufferCommands", false);
+mongoose.set("bufferTimeoutMS", 0);
+
 export async function connectDB() {
   const mongoUri = process.env.MONGO_URI;
 
@@ -9,6 +12,8 @@ export async function connectDB() {
 
   try {
     await mongoose.connect(mongoUri, {
+      family: 4,
+      bufferCommands: false,
       autoIndex: true,
       serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of 30s
       socketTimeoutMS: 45000, // Close sockets after 45s of inactivity

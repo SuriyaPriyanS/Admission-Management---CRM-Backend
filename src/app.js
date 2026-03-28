@@ -6,6 +6,7 @@ import rateLimit from "express-rate-limit";
 import morgan from "morgan";
 import mongoose from "mongoose";
 import routes from "./routes/index.js";
+import { requireDbConnection } from "./middleware/dbReady.js";
 import { errorHandler, notFoundHandler } from "./middleware/errorHandler.js";
 
 dotenv.config();
@@ -57,6 +58,7 @@ app.get("/health", (req, res) => {
   });
 });
 
+app.use("/api", requireDbConnection);
 app.use("/api", routes);
 app.use(notFoundHandler);
 app.use(errorHandler);
